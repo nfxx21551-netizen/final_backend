@@ -16,11 +16,9 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true)
+
     private String orderId;
 
-    @ManyToOne
-    @JoinColumn(name = "supplier_id")
     private User supplier;
 
     private String supplierName;
@@ -33,8 +31,6 @@ public class Order {
 
     private String customerPhone;
 
-    // ✅ YEH FIELD ADD KARO agar database mein product_id column hai
-     @Column(name = "product_id")
      private Long productId;
 
     private String productKey;
@@ -47,17 +43,15 @@ public class Order {
 
     private String material;
 
-    @Column(length = 1000)
     private String specs;
 
-    @Column(length = 1000)
     private String address;
 
     private String contactMethod;
 
     private Double amount;
 
-    @Enumerated(EnumType.STRING)
+ 
     private OrderStatus status;
 
     private java.util.Date orderDate;
@@ -66,12 +60,11 @@ public class Order {
 
     private String trackingInfo;
 
-    @Column(updatable = false)
     private java.util.Date createdAt;
 
     private java.util.Date updatedAt;
 
-    @PrePersist
+
     protected void onCreate() {
         createdAt = new java.util.Date();
         updatedAt = new java.util.Date();
@@ -83,8 +76,9 @@ public class Order {
         }
     }
 
-    @PreUpdate
+
     protected void onUpdate() {
         updatedAt = new java.util.Date();
     }
+
 }
