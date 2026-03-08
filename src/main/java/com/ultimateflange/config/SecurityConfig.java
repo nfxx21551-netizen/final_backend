@@ -13,18 +13,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .cors(cors -> cors.disable())
+            .csrf(csrf -> csrf.disable())        // CSRF off
             .authorizeHttpRequests(auth -> auth
-                // ✅ Sirf auth endpoints protected hain
-                .requestMatchers("/api/auth/**").authenticated()
-                
-                // ✅ Baaki sab kuch open hai - bina token ke
-                .requestMatchers("/api/products/**").permitAll()
-                .requestMatchers("/api/orders/**").permitAll()
-                .requestMatchers("/api/users/**").permitAll()
-                .requestMatchers("/api/supplier/**").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().permitAll()         // SAB KUCH ALLOW
             )
             .httpBasic(basic -> basic.disable())
             .formLogin(login -> login.disable());
