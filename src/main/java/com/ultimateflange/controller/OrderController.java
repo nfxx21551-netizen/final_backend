@@ -16,8 +16,8 @@ public class OrderController {
     
     private final OrderService orderService;
     
-    // ✅ REMOVE @PreAuthorize or @Secured annotations
     @PostMapping
+    // ✅ No @PreAuthorize, no authentication required
     public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO) {
         try {
             Order order = orderService.createOrder(orderDTO);
@@ -27,18 +27,8 @@ public class OrderController {
         }
     }
     
-    // ✅ Make all methods public
     @GetMapping
     public ResponseEntity<?> getAllOrders() {
         return ResponseEntity.ok(ApiResponse.success(orderService.getAllOrders()));
-    }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getOrder(@PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(ApiResponse.success(orderService.getOrderById(id)));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
-        }
     }
 }
