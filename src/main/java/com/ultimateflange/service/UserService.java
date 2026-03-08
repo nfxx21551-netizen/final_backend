@@ -14,22 +14,29 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User registerUser(RegisterRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
-        }
-
-        User user = new User();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setCompany(request.getCompany());
-        user.setIndustry(request.getIndustry());
-        user.setUserType(request.getUserType());
-
-        return userRepository.save(user);
+  public User registerUser(RegisterRequest request) {
+    if (userRepository.existsByEmail(request.getEmail())) {
+        throw new RuntimeException("Email already exists");
     }
+    
+    User user = new User();
+    user.setFirstName(request.getFirstName());
+    user.setLastName(request.getLastName());
+    user.setEmail(request.getEmail());
+    user.setPassword(passwordEncoder.encode(request.getPassword()));
+    user.setCompany(request.getCompany());
+    user.setIndustry(request.getIndustry());
+    user.setUserType(request.getUserType());
+    
+    // ✅ Set default role if not provided
+    if (request.getRole() != null) {
+        user.setRole(request.getRole());
+    } else {
+        user.setRole("USER");  // Default value
+    }
+    
+    return userRepository.save(user);
+}
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
@@ -40,4 +47,5 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
+
 }
