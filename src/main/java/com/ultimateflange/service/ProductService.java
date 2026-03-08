@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -19,34 +18,46 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    // Get all products
+    public List<ProductDTO> getAllProducts() {
+        return productRepository.findAll()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
 
+    // Get product by ID
     public Product getProductById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
+    // Get product by key
     public Product getProductByKey(String key) {
         return productRepository.findByProductKey(key);
     }
 
+    // Get products by supplier
     public List<Product> getProductsBySupplier(Long supplierId) {
+
         User supplier = userRepository.findById(supplierId)
                 .orElseThrow(() -> new RuntimeException("Supplier not found"));
+
         return productRepository.findBySupplier(supplier);
     }
 
+    // Create product
     public Product createProduct(ProductDTO productDTO, Long supplierId) {
+
         User supplier = userRepository.findById(supplierId)
                 .orElseThrow(() -> new RuntimeException("Supplier not found"));
 
-        if (!"supplier".equals(supplier.getUserType())) {
+        if (!"Supplier".equals(supplier.getUserType())) {
             throw new RuntimeException("Only suppliers can create products");
         }
 
         Product product = new Product();
+
         product.setProductKey(productDTO.getKey());
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
@@ -69,7 +80,9 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    // Update product
     public Product updateProduct(Long id, ProductDTO productDTO) {
+
         Product product = getProductById(id);
 
         product.setProductKey(productDTO.getKey());
@@ -92,16 +105,22 @@ public class ProductService {
         return productRepository.save(product);
     }
 
+    // Delete product
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
 
+    // Search product
     public List<Product> searchProducts(String query) {
-        return productRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(query, query);
+        return productRepository
+                .findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(query, query);
     }
 
+    // Convert entity to DTO
     public ProductDTO convertToDTO(Product product) {
+
         ProductDTO dto = new ProductDTO();
+
         dto.setId(product.getId());
         dto.setKey(product.getProductKey());
         dto.setName(product.getName());
@@ -127,4 +146,5 @@ public class ProductService {
 
         return dto;
     }
+}
 }
