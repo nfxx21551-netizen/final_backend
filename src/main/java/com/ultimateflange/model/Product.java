@@ -16,13 +16,12 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String productKey; // e.g., "lwn", "wnf"
 
-    @Column(nullable = false)
+
     private String name;
 
-    @Column(length = 1000)
+
     private String description;
 
     private Double price;
@@ -35,7 +34,6 @@ public class Product {
 
     private String material;
 
-    @Column(length = 1000)
     private String specs;
 
     private String standard;
@@ -46,26 +44,26 @@ public class Product {
 
     private String imageUrl;
 
-    @Column(length = 1000)
+
     private String features; // JSON string or comma-separated
 
-    @ManyToOne
-    @JoinColumn(name = "supplier_id")
+
     private User supplier;
 
-    @Column(updatable = false)
+  
     private java.util.Date createdAt;
 
     private java.util.Date updatedAt;
 
-    @PrePersist
+
     protected void onCreate() {
         createdAt = new java.util.Date();
         updatedAt = new java.util.Date();
     }
 
-    @PreUpdate
+
     protected void onUpdate() {
         updatedAt = new java.util.Date();
     }
+
 }
