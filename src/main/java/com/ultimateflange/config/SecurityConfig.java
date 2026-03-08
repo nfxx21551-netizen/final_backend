@@ -16,11 +16,8 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/**").permitAll()  // ✅ ALLOW ALL REQUESTS
-                .anyRequest().permitAll()
-            )
-            .httpBasic(basic -> basic.disable())
-            .formLogin(login -> login.disable());
+                .anyRequest().permitAll()  // ✅ Sab kuch allow karo
+            );
         
         return http.build();
     }
