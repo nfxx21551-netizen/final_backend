@@ -16,13 +16,15 @@ public class OrderController {
     
     private final OrderService orderService;
     
+    // ✅ Bilkul simple - bina kisi annotation ke
     @PostMapping
-    // ✅ No @PreAuthorize, no authentication required
     public ResponseEntity<?> createOrder(@RequestBody OrderDTO orderDTO) {
         try {
+            System.out.println("📦 Order received: " + orderDTO); // Debug log
             Order order = orderService.createOrder(orderDTO);
             return ResponseEntity.ok(ApiResponse.success("Order created", order));
         } catch (Exception e) {
+            e.printStackTrace(); // Debug log
             return ResponseEntity.badRequest().body(ApiResponse.error(e.getMessage()));
         }
     }
