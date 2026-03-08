@@ -16,12 +16,13 @@ public class SecurityConfig {
             .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.disable())
             .authorizeHttpRequests(auth -> auth
-                .anyRequest().permitAll()  // ✅ SAB KUCH ALLOW
+                .requestMatchers("/api/auth/**").permitAll()    // Auth open
+                .requestMatchers("/api/products/**").permitAll() // Products open
+                .requestMatchers("/api/orders/**").permitAll()   // Orders open
+                .anyRequest().permitAll()                         // Sab open
             )
             .httpBasic(basic -> basic.disable())
-            .formLogin(login -> login.disable())
-            .logout(logout -> logout.disable())
-            .sessionManagement(session -> session.disable());
+            .formLogin(login -> login.disable());
         
         return http.build();
     }
