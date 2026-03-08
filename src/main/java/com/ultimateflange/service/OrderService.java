@@ -47,6 +47,7 @@ public class OrderService {
 
         // Customer details
         order.setCustomerEmail(orderDTO.getCustomerEmail());
+        order.setEmail(orderDTO.getCustomerEmail());
         order.setCustomerName(orderDTO.getCustomerName());
         order.setCustomerCompany(orderDTO.getCustomerCompany());
         order.setCustomerPhone(orderDTO.getCustomerPhone());
@@ -145,3 +146,4 @@ public class OrderService {
     }
 }
 }
+
