@@ -27,7 +27,7 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Create demo users if not exists
-        if (userRepository.count() == 0) {
+        if (userRepository.count() < 5) {
             // Partner user
             User partner = new User();
             partner.setFirstName("Demo");
@@ -142,4 +142,5 @@ public class DataInitializer implements CommandLineRunner {
         blf.setSupplier(supplier);
         productRepository.save(blf);
     }
+
 }
